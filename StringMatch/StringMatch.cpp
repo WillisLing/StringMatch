@@ -8,60 +8,6 @@
 #include <memory>
 
 #include <string>
-#include <type_traits>
-
-
-// template<typename Char_T>
-// inline size_t _DNDM_EnsureIndex(Char_T idx)
-// {
-// 	typedef std::make_unsigned<Char_T>::type UChar_T;
-// 	return (UChar_T)idx;
-// }
-// 
-// template<typename Char_T>
-// size_t DNDM(const Char_T* p, size_t p_len, const Char_T* t, size_t t_len)
-// {
-// 	assert(p != nullptr && p_len != 0);
-// 	assert(t != nullptr && t_len != 0);
-// 	// ‘§¥¶¿Ì
-// 	assert(p_len <= 8 * sizeof(ptrdiff_t));
-// 	const size_t kCnt = 1 << (8 * sizeof(Char_T)); // 2^(8 * sizeof(Char_T))
-// 	ptrdiff_t B[kCnt];
-// 	memset(B, 0, sizeof(ptrdiff_t) * kCnt);
-// 
-// 	for (size_t j = 0; j < p_len; ++j)
-// 	{
-// 		B[_DNDM_EnsureIndex(p[j])] |= (1 << (p_len - j - 1));
-// 	}
-// 	// À—À˜
-// 	size_t pos = 0;
-// 	while (pos <= t_len - p_len)
-// 	{
-// 		int j = p_len - 1;
-// 		int last = p_len;
-// 		ptrdiff_t D = ~0;
-// 		while (D != 0)
-// 		{
-// 			D &= B[_DNDM_EnsureIndex(t[pos + j])];
-// 			if (D != 0)
-// 			{
-// 				if (j != 0)
-// 				{
-// 					last = j;
-// 				} 
-// 				else
-// 				{
-// 					return pos;
-// 				}
-// 			}
-// 			--j;
-// 			D <<= 1;
-// 		}
-// 		pos += last;
-// 	}
-// 	return -1;
-// }
-
 #include <windows.h>
 #include <fstream>
 #include <sstream>
