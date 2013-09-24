@@ -63,8 +63,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 	std::wstring p = ReadFromFile(L"_pattern.txt");
 	std::wstring t = ReadFromFile(L"_text.txt");
-// 	std::string p = "1992年";
-// 	std::string t = "看着这些旗帜，再看着那一眼望不到尽头的可怕战场1992年，那堆积如山的尸骸，插在战场上的短戈残枪，就连那初升的丽日也被这战场染上了一层血红，冉冉升起。在晨光鲜艳的光亮中，他们可清楚地看到这片广袤的战场，自巴丹城下直到两边的辽阔延绵的高地、丛林间，到处是折断的长枪、砍刀和重剑，到处是燃烧的帐篷和辎重，人尸和马尸堆积如山。在尸山上还戳起了一只只手、脚，像插在那上面的旗帜。在这片血腥的战场上，积尸一望无边。";
 
 	std::vector<size_t> matches_STD;
 
