@@ -30,6 +30,9 @@
     <ClInclude Include="StringMatch_BOM.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="StringMatch_Horspool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

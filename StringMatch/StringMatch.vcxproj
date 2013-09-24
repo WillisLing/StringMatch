@@ -82,6 +82,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringMatch_BOM.h" />
     <ClInclude Include="StringMatch_DNDM.h" />
+    <ClInclude Include="StringMatch_Horspool.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>

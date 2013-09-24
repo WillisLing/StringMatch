@@ -3,6 +3,7 @@
 #include <forward_list>
 #include <vector>
 
+// 只在小字符集上(如只有英文)，且模式字符串较长的时候，表现优秀
 template<typename Char_T>
 class StringMatch_BOM
 {

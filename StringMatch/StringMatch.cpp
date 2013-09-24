@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 
-#include <cstddef>
+// #include <cstddef>
 #include <cassert>
 #include <memory>
 
@@ -15,6 +15,7 @@
 
 #include "StringMatch_BOM.h"
 #include "StringMatch_DNDM.h"
+#include "StringMatch_Horspool.h"
 
 std::wstring ReadFromFile(const wchar_t* filePath)
 {
@@ -64,15 +65,21 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::wstring p = ReadFromFile(L"_pattern.txt");
 	std::wstring t = ReadFromFile(L"_text.txt");
 
+	typedef wchar_t Char_T;
+
 	std::vector<size_t> matches_STD;
 
 	std::vector<size_t> matches_DNDM;
-	StringMatch_DNDM<wchar_t> _DNDM;
+	StringMatch_DNDM<Char_T> _DNDM;
 	_DNDM.Compile(p.c_str(), p.length());
 
 	std::vector<int> matches_BOM;
-	StringMatch_BOM<wchar_t> _BOM;
+	StringMatch_BOM<Char_T> _BOM;
 	_BOM.Compile(p.c_str(), p.length());
+
+	std::vector<size_t> matchs_Horspool;
+	StringMatch_Horspool<Char_T> _horspool;
+	_horspool.Compile(p.c_str(), p.length());
 
 	for (int n = 0; n < 20; ++n)
 	{
@@ -104,7 +111,12 @@ int _tmain(int argc, _TCHAR* argv[])
 		QueryPerformanceCounter(&counter2);
 		double t3 = (counter2.QuadPart-counter.QuadPart)/(double)(freq.QuadPart);
 
-		printf("DNDM: %fs, std::string.find: %fs, BOM: %fs \n", t1, t2, t3);
+		QueryPerformanceCounter(&counter);
+		matchs_Horspool = _horspool.FindAll(t.c_str(), t.length());
+		QueryPerformanceCounter(&counter2);
+		double t4 = (counter2.QuadPart-counter.QuadPart)/(double)(freq.QuadPart);
+
+		printf("DNDM: %fs, std::string.find: %fs, BOM: %fs, Horspool: %fs \n", t1, t2, t3, t4);
 	}
 
 	if (matches_DNDM.size() == matches_STD.size())
@@ -135,6 +147,21 @@ int _tmain(int argc, _TCHAR* argv[])
 	else
 	{
 		printf("BOM match count failed!");
+	}
+
+	if (matchs_Horspool.size() == matches_STD.size())
+	{
+		for (size_t i = 0; i < matches_STD.size(); ++i)
+		{
+			if (matchs_Horspool[i] != matches_STD[i])
+			{
+				printf("Horspool match failed!\n");
+			}
+		}
+	} 
+	else
+	{
+		printf("Horspool match count failed!");
 	}
 
 	system("pause");

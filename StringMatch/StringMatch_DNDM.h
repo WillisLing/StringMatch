@@ -4,6 +4,7 @@
 #include <vector>
 #include <type_traits>
 
+// 在模式字符串＜＝机器字长时，表现优秀
 template<typename Char_T>
 class StringMatch_DNDM
 {
@@ -20,12 +21,13 @@ public:
 		m_patternLen = p_len;
 
 		/* Preprocessing */
-		assert(p_len <= 8 * sizeof(ptrdiff_t));
-		memset(m_B, 0, sizeof(ptrdiff_t) * ms_kCnt);
+		// 由于要作位运算，所以这里具有长度限制: x86 上最大 32, x64 上最大 64
+		assert(p_len <= 8 * sizeof(intptr_t));
+		memset(m_B, 0, sizeof(intptr_t) * ms_kCnt);
 
 		for (size_t j = 0; j < p_len; ++j)
 		{
-			m_B[_DNDM_EnsureIndex(p[j])] |= (1 << (p_len - j - 1));
+			m_B[_EnsureIndex(p[j])] |= (1 << (p_len - j - 1));
 		}
 	}
 
@@ -41,10 +43,10 @@ public:
 		{
 			int j = m_patternLen - 1;
 			int last = m_patternLen;
-			ptrdiff_t D = ~0;
+			intptr_t D = ~0;
 			while (D != 0)
 			{
-				D &= m_B[_DNDM_EnsureIndex(t[pos + j])];
+				D &= m_B[_EnsureIndex(t[pos + j])];
 				if (D != 0)
 				{
 					if (j != 0)
@@ -72,7 +74,7 @@ public:
 	}
 
 private:
-	inline size_t _DNDM_EnsureIndex(Char_T idx)
+	inline size_t _EnsureIndex(Char_T idx)
 	{
 		typedef std::make_unsigned<Char_T>::type UChar_T;
 		return (UChar_T)idx;
@@ -80,7 +82,7 @@ private:
 
 private:
 	static const size_t		ms_kCnt = 1 << (8 * sizeof(Char_T)); // 2^(8 * sizeof(Char_T))
-	ptrdiff_t				m_B[ms_kCnt];
+	intptr_t				m_B[ms_kCnt];
 	size_t					m_patternLen;
 };
 
